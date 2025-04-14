@@ -1,145 +1,137 @@
-# React Template with Vite and Deno
+# Mirrored Whiteboard App
 
-This is a GitHub template project to set up a [React](https://react.dev/) app
-with TypeScript running on [Deno](https://deno.com). It uses
-[Vite](https://vite.dev) as the dev server and an [oak](https://jsr.io/@oak/oak)
-http server on the backend to serve the built project.
+[![Mirrored Whiteboard Logo](client/public/logo.png)](https://github.com/your-username/mirrored-whiteboard-app) <!-- Replace with actual logo path if different or remove if no logo -->
 
-## Features
+**Draw on one screen, see it instantly mirrored on another! A simple, real-time collaborative whiteboard experience.**
 
-- React with TypeScript on the frontend
-- Vite for the development server
-- Deno for server-side JavaScript/TypeScript
-- Oak framework for building web applications
-- Static file serving
-- Router setup
+<!-- ![App Screenshot/GIF](link/to/screenshot.gif) --> <!-- Add a screenshot or GIF later -->
 
-## Getting Started
+## ✨ Features
+
+*   **Real-time Drawing:** Sketch, draw, and write on a digital canvas.
+*   **Instant Mirroring:** Open a separate "mirror" view that perfectly reflects the drawing canvas in real-time. Ideal for presentations, teaching, or collaborative sessions where one person draws and others watch.
+*   **Simple Interface:** Clean and intuitive user interface built with React.
+*   **Fast Development:** Leverages Vite for a speedy development experience.
+*   **Modern Backend:** Powered by Deno for a secure and efficient server.
+
+## 🤔 How it Works
+
+The application likely uses WebSockets to transmit drawing data from the main drawing page (`/draw`) to any connected mirror pages (`/mirror`). As you draw on the canvas, the strokes are captured, sent to the server, and broadcasted to all mirror clients, ensuring a low-latency reflection of your work.
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-To run this app, you will need to have [Deno](https://docs.deno.com/runtime/)
-installed.
+*   [Deno](https://docs.deno.com/runtime/manual/getting_started/installation) installed on your system.
 
-### Installation
+### Installation & Running
 
-1. Create a new repository using this template. From the repository page, click
-   the "Use this template" button in the top right hand of the page:
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/mirrored-whiteboard-app.git # Replace with your repo URL
+    cd mirrored-whiteboard-app
+    ```
 
-<img src="https://docs.github.com/assets/cb-76823/images/help/repository/use-this-template-button.png" alt="Use this template button" width="400">
+2.  **Install dependencies (caches remote modules):**
+    ```bash
+    deno cache server/main.ts client/src/main.tsx
+    # Alternatively, running `deno task dev` will also cache dependencies.
+    ```
 
-2. Use the Owner dropdown menu to select the account you want to own the
-   repository and set the repository name and visibility.
+3.  **Run the development server:**
+    This starts Vite for the frontend and the Deno backend server concurrently.
+    ```bash
+    deno task dev
+    ```
+    *   The drawing interface will be available at `http://localhost:xxxx/draw` (check terminal for Vite port, often 5173).
+    *   The mirror view will be available at `http://localhost:xxxx/mirror`.
 
-3. Clone the repository created to your local machine.
+4.  **Build for Production:**
+    ```bash
+    deno task build
+    ```
 
-```sh
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+5.  **Run the production server:**
+    Serves the optimized frontend build using the Deno server.
+    ```bash
+    deno task serve
+    ```
+    *   Access the app at `http://localhost:8090/draw` and `http://localhost:8090/mirror`.
+
+## Deno Tasks (`deno.json`)
+
+The `deno.json` file defines the tasks used for development, building, and serving. Here's an example structure:
+
+```jsonc
+// deno.json (Example Structure)
+{
+  "tasks": {
+    "dev": "...", // Command to run Vite dev server (likely involves `vite`)
+    "build": "...", // Command to build the client app (likely `vite build`)
+    "serve": "deno run --allow-net --allow-read server/main.ts", // Command to run the production Deno server
+    "test": "deno test -A" // Command to run tests (if defined)
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  },
+  "imports": {
+    // Project dependencies listed here
+    "react": "npm:react@^18.2.0",
+    "react-dom/client": "npm:react-dom@^18.2.0/client",
+    // ... other dependencies like oak, vite plugins, etc.
+  }
+  // Potentially an "importMap" key as well
+}
 ```
 
-> For a step by step guide to using a GitHub template
-> [follow this walkthrough](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
+## 🛠️ Usage
 
-## Install the dependencies
+1.  Start the application using `deno task dev`.
+2.  Open your browser and navigate to `http://localhost:xxxx/draw` (check the terminal for the exact Vite port). This is your drawing canvas.
+3.  Open another browser tab or window and navigate to `http://localhost:xxxx/mirror`.
+4.  Start drawing on the `/draw` page. You should see your strokes appear in real-time on the `/mirror` page.
 
-To install the dependencies for the frontend and backend, run the following
-command:
+## 💻 Technology Stack
 
-```sh
-deno install
-```
-
-## Run the dev server with vite
-
-The app uses a Vite dev server to run in development mode. To start the dev
-server, run the following command:
-
-```sh
-deno run dev
-```
-
-## Build the app
-
-To build the app for production, run the following command:
-
-```sh
-deno run build
-```
-
-## Run the backend server
-
-The backend server uses Deno and the Oak framework to serve the built React app.
-To start the backend server, run the following command:
-
-```sh
-deno run serve
-```
-
-## Running Tests
-
-To run the tests, use the following command:
-
-```sh
-deno test -A
-```
+*   **Frontend:** React, TypeScript, Tailwind CSS (based on project files)
+*   **Build Tool:** Vite
+*   **Backend:** Deno, Oak (likely, based on previous README)
+*   **Real-time Communication:** WebSockets (Likely required for mirroring)
 
 ## Project Structure
 
-```sh
-. 
-├── client 
-│   ├── dist 
-│   ├── public 
-│   └── src 
-│       ├── App.tsx 
-│       └── main.tsx 
-└── server 
-    ├── main.ts 
-    ├── main_test.ts 
-    └── util 
-        └── routeStaticFilesFrom.ts
+```
+.
+├── client/         # React Frontend Code (Vite project)
+│   ├── public/     # Static assets (like logo.png)
+│   └── src/        # Source files (Components, Pages, CSS)
+│       ├── pages/
+│       │   ├── DrawPage.tsx
+│       │   └── MirrorPage.tsx
+│       ├── App.tsx     # Main App component (routing)
+│       └── main.tsx    # Client entry point
+├── server/         # Deno Backend Code
+│   ├── util/       # Server utilities
+│   └── main.ts     # Server entry point
+├── .gitignore
+├── deno.json       # Deno configuration (tasks, imports)
+├── deno.lock       # Dependency lock file
+├── LICENSE
+├── README.md       # This file
+└── vite.config.ts  # Vite configuration
 ```
 
-- `App.tsx`: The main React component
-- `main.tsx`: The entry point for the React app
-- `main.ts`: The entry point for the Deno server
-- `main_test.ts`: The test file for the Deno server
-- `routeStaticFilesFrom.ts`: A utility function to serve static files
-- `dist`: The output directory for the built React app
-- `public`: The public directory for the React app
+## 🤝 Contributing
 
-## Points of note
+Contributions are welcome! Please feel free to open an issue or submit a pull request if you have ideas for improvements or bug fixes.
 
-The React app is contained in the `client` directory. This is also where Vite
-will install its dependencies and build the app.
+1.  Fork the Project
+2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the Branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
 
-There is a `vite.config.ts` file in the root of the project that configures Vite
-to build the app in the `client/dist` directory and serve the app on port 3000.
+## 📄 License
 
-The `deno.json` file contains the tasks to run the dev server, build the app,
-and serve the app, along with the dependencies and the compiler configuration
-required to use JSX and React.
-
-The Deno server is contained in the `server` directory. The server serves the
-built React app from the `client/dist` directory and listens on port 8090. This
-is what should be used in production.
-
-## Deploying
-
-You can deploy the app with [Deno Deploy](https://dash.deno.com/new_project).
-
-1. Link your github account
-2. Select the repository
-3. Give the project a name
-4. Set the "Build Step" to `deno task build`
-5. Set the entry point to `./server/main.ts`
-6. Click 'deploy project'
-
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the MIT License.
+Distributed under the MIT License. See `LICENSE` for more information.
