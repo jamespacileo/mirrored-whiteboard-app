@@ -1,33 +1,33 @@
-import { useState } from "react";
-import "./App.css";
+// client/src/App.tsx
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import DrawPage from "./pages/DrawPage.tsx"; // Create this
+import MirrorPage from "./pages/MirrorPage.tsx"; // Create this
+import "./App.css"; // Or your main CSS file
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src="/react.svg" className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count: number) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <Routes>
+        {/* Optional: Add a simple index page to navigate */}
+        <Route path="/" element={<IndexPage />} />
+        <Route path="/draw" element={<DrawPage />} />
+        <Route path="/mirror" element={<MirrorPage />} />
+        {/* Keep other routes from the template if needed */}
+      </Routes>
+    </BrowserRouter>
   );
 }
+
+// Optional simple Index Page component within App.tsx or in its own file
+function IndexPage() {
+    return (
+        <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
+            <h1>Whiteboard App</h1>
+            <p><a href="/draw">Open Drawing Pad</a></p>
+            <p><a href="/mirror">Open Mirror View</a></p>
+        </div>
+    );
+}
+
 
 export default App;

@@ -122,7 +122,7 @@ and serve the app, along with the dependencies and the compiler configuration
 required to use JSX and React.
 
 The Deno server is contained in the `server` directory. The server serves the
-built React app from the `client/dist` directory and listens on port 8000. This
+built React app from the `client/dist` directory and listens on port 8090. This
 is what should be used in production.
 
 ## Deploying

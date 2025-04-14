@@ -19,6 +19,7 @@
     "jsr:@std/media-types@1": "1.1.0",
     "jsr:@std/path@1": "1.0.8",
     "jsr:@std/testing@*": "1.0.5",
+    "jsr:@tajpouria/cors@*": "1.2.1",
     "npm:@deno/vite-plugin@1": "1.0.0_vite@5.4.11__@types+node@22.5.4_@types+node@22.5.4",
     "npm:@types/node@*": "22.5.4",
     "npm:@types/react@^18.3.12": "18.3.12",
@@ -26,6 +27,7 @@
     "npm:path-to-regexp@6.2.1": "6.2.1",
     "npm:react-dom@^18.3.1": "18.3.1_react@18.3.1",
     "npm:react-router-dom@^6.28.0": "6.28.0_react@18.3.1_react-dom@18.3.1__react@18.3.1",
+    "npm:react-sketch-canvas@^7.0.0-next.4": "7.0.0-next.4_react@18.3.1",
     "npm:react@^18.3.1": "18.3.1",
     "npm:vite@*": "5.4.11_@types+node@22.5.4",
     "npm:vite@^5.4.11": "5.4.11_@types+node@22.5.4"
@@ -105,6 +107,9 @@
         "jsr:@std/assert@^1.0.8",
         "jsr:@std/internal"
       ]
+    },
+    "@tajpouria/cors@1.2.1": {
+      "integrity": "eca42e4fb7cb3906ef0ee3d1e565dd6bb4632ccd8e70a95cf4279759743328f0"
     }
   },
   "npm": {
@@ -601,6 +606,12 @@
         "react"
       ]
     },
+    "react-sketch-canvas@7.0.0-next.4_react@18.3.1": {
+      "integrity": "sha512-Njm/Kn/t8bPZuSmkuLNy4KyyyayjejqRGtct+9VA1OPHEyUfwNDU+HOr7VUlWnHPJBN9yJyTUyMc3kgRQkDMyg==",
+      "dependencies": [
+        "react"
+      ]
+    },
     "react@18.3.1": {
       "integrity": "sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==",
       "dependencies": [
@@ -678,6 +689,7 @@
       "npm:@vitejs/plugin-react@^4.3.3",
       "npm:react-dom@^18.3.1",
       "npm:react-router-dom@^6.28.0",
+      "npm:react-sketch-canvas@^7.0.0-next.4",
       "npm:react@^18.3.1",
       "npm:vite@^5.4.11"
     ]

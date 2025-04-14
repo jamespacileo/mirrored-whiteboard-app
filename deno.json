@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "dev": "deno run -A --node-modules-dir=auto npm:vite",
+    "dev": "deno run -A --node-modules-dir npm:vite",
     "build": "deno run -A --node-modules-dir=auto npm:vite build",
     "server:start": "deno run -A --node-modules-dir --watch ./server/main.ts",
     "serve": "deno task build && deno task server:start"
@@ -14,6 +14,7 @@
     "react": "npm:react@^18.3.1",
     "react-dom": "npm:react-dom@^18.3.1",
     "react-router-dom": "npm:react-router-dom@^6.28.0",
+    "react-sketch-canvas": "npm:react-sketch-canvas@^7.0.0-next.4",
     "vite": "npm:vite@^5.4.11"
   },
   "compilerOptions": {
