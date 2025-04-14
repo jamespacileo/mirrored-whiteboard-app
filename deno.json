@@ -15,7 +15,10 @@
     "react-dom": "npm:react-dom@^18.3.1",
     "react-router-dom": "npm:react-router-dom@^6.28.0",
     "react-sketch-canvas": "npm:react-sketch-canvas@^7.0.0-next.4",
-    "vite": "npm:vite@^5.4.11"
+    "vite": "npm:vite@^5.4.11",
+    "tailwindcss": "npm:tailwindcss@^3.4.4",
+    "postcss": "npm:postcss@^8.4.38",
+    "autoprefixer": "npm:autoprefixer@^10.4.19"
   },
   "compilerOptions": {
     "types": [
