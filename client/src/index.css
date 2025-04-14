@@ -3,7 +3,6 @@
 /* Keep minimal body reset */
 body {
   margin: 0;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; /* Optional: Keep base font */
   /* Remove other potentially conflicting styles previously here */
 }
 

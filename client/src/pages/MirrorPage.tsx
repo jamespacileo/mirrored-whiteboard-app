@@ -21,7 +21,6 @@ interface Bounds { minX: number; minY: number; maxX: number; maxY: number }
 
 // --- Bounding Box Calculation ---
 function getStrokesBoundingBox(strokes: StoredStroke[]): Bounds | null {
-    // ... (keep existing function)
     if (strokes.length === 0) return null;
 
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
@@ -48,23 +47,13 @@ function getStrokesBoundingBox(strokes: StoredStroke[]): Bounds | null {
 
 // --- SVG Generation Helper ---
 function generateSvgString(strokes: RenderStroke[], viewBox: string, width: number, height: number): string {
-    // ... (keep existing function, but add width/height params for root SVG element)
      const paths = strokes.map(stroke =>
         `<path key="${stroke.id}" d="${stroke.pathData}" fill="${stroke.color}" />`
     ).join('');
 
+    // Note: Text color here might need adjustment if SVG background changes
     const emptyText = `<text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="20" fill="#AAAAAA" class="font-medium">Waiting for drawing...</text>`;
 
-    // const gridPattern = `
-    //     <defs>
-    //         <pattern id="mirrorGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-    //             <circle cx="10" cy="10" r="0.5" fill="#E0E0E0" />
-    //         </pattern>
-    //     </defs>
-    //     <rect width="100%" height="100%" fill="url(#mirrorGrid)" />
-    // `;
-
-    // Add explicit width and height matching the canvas for better rendering consistency
     return `
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +76,6 @@ function MirrorPage() {
 
     // --- Function to process stored strokes and generate pathData ---
     const processAndSetStrokes = useCallback((storedStrokes: StoredStroke[]) => {
-        // ... (keep existing function)
         const renderableStrokes = storedStrokes.map(stroke => {
             const strokeOutlinePoints = getStroke(stroke.points, {
                 size: stroke.size,
@@ -103,7 +91,6 @@ function MirrorPage() {
 
 
     useEffect(() => {
-        // ... (keep existing useEffect)
         console.log("[MirrorPage] useEffect: Adding storage event listener.");
         const handleStorageChange = (event: StorageEvent) => {
             console.log("[MirrorPage] handleStorageChange: Event received.");
@@ -244,7 +231,6 @@ function MirrorPage() {
 
     // --- Download Handlers ---
     const handleDownloadSvg = useCallback(() => {
-        // ... (keep existing SVG download logic)
         const blob = new Blob([svgString], { type: 'image/svg+xml' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -269,16 +255,16 @@ function MirrorPage() {
 
     // --- Render ---
     return (
-        <div className="flex flex-col items-center justify-center p-4 bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen">
+        <div className="flex flex-col items-center justify-center p-4 bg-primary-dark min-h-screen font-sans">
             {/* Hidden canvas for rendering */}
             <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
 
-            <h1 className="text-3xl font-bold mb-6 text-gray-700 shadow-sm">Mirror View</h1>
+            <h1 className="text-3xl font-bold mb-6 text-gray-100">Mirror View</h1>
             {/* Container for the Image */}
             <div className="w-full max-w-4xl aspect-[4/3] bg-white rounded-lg shadow-xl overflow-hidden border border-gray-300 mb-4 flex items-center justify-center relative">
                 {isConverting && (
                     <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10">
-                        <p className="text-gray-500">Converting to PNG...</p>
+                        <p className="text-gray-700">Converting to PNG...</p>
                         {/* Optional: Add a spinner here */}
                     </div>
                 )}
@@ -290,7 +276,7 @@ function MirrorPage() {
                     />
                 ) : (
                      <div className="flex items-center justify-center w-full h-full bg-gray-50">
-                         <p className="text-gray-400 font-medium">
+                         <p className="text-gray-500 font-medium">
                              {strokesToRender.length > 0 ? 'Generating image...' : 'Waiting for drawing...'}
                          </p>
                      </div>
@@ -302,20 +288,20 @@ function MirrorPage() {
                  <button
                     onClick={handleDownloadPng}
                     disabled={!pngImageSrc || isConverting}
-                    className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition duration-150 ease-in-out"
+                    className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed transition duration-150 ease-in-out"
                 >
                     Download PNG
                 </button>
                 <button
                     onClick={handleDownloadSvg}
                     disabled={strokesToRender.length === 0 || isConverting}
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition duration-150 ease-in-out"
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed transition duration-150 ease-in-out"
                 >
                     Download SVG
                 </button>
             </div>
 
-             <p className="mt-4 text-sm text-gray-500 italic">
+             <p className="mt-4 text-sm text-gray-400 italic">
                 Mirror view updates automatically. Right-click the image to copy.
             </p>
         </div>

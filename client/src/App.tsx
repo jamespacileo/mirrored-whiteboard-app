@@ -20,13 +20,23 @@ function App() {
 
 // Optional simple Index Page component within App.tsx or in its own file
 function IndexPage() {
-    return (
-        <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-            <h1>Whiteboard App</h1>
-            <p><a href="/draw">Open Drawing Pad</a></p>
-            <p><a href="/mirror">Open Mirror View</a></p>
-        </div>
-    );
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-primary-dark font-sans p-4"> {/* Changed background */}
+      <img src="/logo.png" alt="Mirrored Whiteboard Logo" className="w-100 h-100" /> 
+      <div className="space-y-5 text-center"> {/* Increased spacing */}
+        <p>
+          <a href="/draw" className="text-xl text-blue-300 hover:text-blue-100 hover:underline transition duration-150 ease-in-out"> {/* Changed text color/size */}
+            Open Drawing Pad
+          </a>
+        </p>
+        <p>
+          <a href="/mirror" className="text-xl text-blue-300 hover:text-blue-100 hover:underline transition duration-150 ease-in-out"> {/* Changed text color/size */}
+            Open Mirror View
+          </a>
+        </p>
+      </div>
+    </div>
+  );
 }
 
 

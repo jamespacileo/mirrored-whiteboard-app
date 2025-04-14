@@ -247,14 +247,19 @@ function DrawPage() {
                 </svg>
 
                 {/* Control Panel - Fixed to the top right corner */}
-                <div className="fixed top-10 left-10 bg-white shadow-lg rounded-lg p-3 z-50">
+                <div className="fixed top-4 left-4 bg-gray-800 text-gray-100 shadow-lg rounded-lg p-4 z-50 font-sans">
+                    {/* App Title */}
+                    <h2 className="text-lg font-semibold text-gray-100 mb-3 pb-2 border-b border-gray-600">
+                        Mirrored <br/> Whiteboard
+                    </h2>
+                    {/* Tools Section */}
                     <div className="mb-3">
-                        <div className="font-medium text-sm mb-2">Tools</div>
+                        <div className="font-medium text-sm mb-2 text-gray-400">Tools</div>
                         <div className="flex items-center space-x-2">
                             <button
                                 onClick={toggleEraser}
                                 title={isEraser ? "Switch to drawing" : "Switch to eraser"}
-                                className={`p-2 rounded ${isEraser ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                                className={`p-2 rounded ${isEraser ? 'bg-blue-500 text-white' : 'bg-gray-700 text-gray-200 hover:bg-gray-600'}`}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                     <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z"/>
@@ -263,7 +268,7 @@ function DrawPage() {
                             <button
                                 onClick={handleUndo}
                                 title="Undo last stroke"
-                                className="p-2 bg-gray-200 rounded"
+                                className="p-2 bg-gray-700 text-gray-200 rounded hover:bg-gray-600"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                     <path fillRule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"/>
@@ -273,7 +278,7 @@ function DrawPage() {
                             <button
                                 onClick={handleClear}
                                 title="Clear canvas"
-                                className="p-2 bg-red-100 text-red-600 rounded"
+                                className="p-2 bg-red-800 text-red-100 rounded hover:bg-red-700"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                     <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
@@ -283,18 +288,18 @@ function DrawPage() {
                     </div>
                     
                     <div className="mb-3">
-                        <div className="font-medium text-sm mb-2">Size</div>
+                        <div className="font-medium text-sm mb-2 text-gray-400">Size</div>
                         <div className="grid grid-cols-4 gap-1">
                             {SIZE_PRESETS.map((size) => (
                                 <button
                                     key={size}
                                     onClick={() => setSelectedSize(size)}
                                     className={`w-8 h-8 flex items-center justify-center rounded ${
-                                        selectedSize === size ? 'bg-blue-100 border-2 border-blue-500' : 'bg-gray-100'
+                                        selectedSize === size ? 'bg-blue-800 border-2 border-blue-300' : 'bg-gray-700 hover:bg-gray-600'
                                     }`}
                                 >
                                     <div 
-                                        className="rounded-full bg-black" 
+                                        className="rounded-full bg-gray-300"
                                         style={{ 
                                             width: Math.max(2, Math.min(size * 0.8, 16)) + 'px',
                                             height: Math.max(2, Math.min(size * 0.8, 16)) + 'px'
@@ -306,7 +311,7 @@ function DrawPage() {
                     </div>
                     
                     <div>
-                        <div className="font-medium text-sm mb-2">Colors</div>
+                        <div className="font-medium text-sm mb-2 text-gray-400">Colors</div>
                         <div className="grid grid-cols-4 gap-1">
                             {COLOR_PRESETS.map((color) => (
                                 <button
@@ -316,9 +321,9 @@ function DrawPage() {
                                         setIsEraser(false);
                                     }}
                                     className={`w-8 h-8 rounded border ${
-                                        selectedColor === color && !isEraser 
-                                            ? 'border-2 border-blue-500 scale-110' 
-                                            : color === '#FFFFFF' ? 'border-gray-300' : 'border-transparent'
+                                        selectedColor === color && !isEraser
+                                            ? 'border-2 border-blue-300 scale-110'
+                                            : color === '#FFFFFF' ? 'border-gray-600' : 'border-transparent'
                                     }`}
                                     style={{ backgroundColor: color }}
                                 />
