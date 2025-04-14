@@ -1,8 +1,16 @@
+@import "tailwindcss";
+
 /* Keep minimal body reset */
 body {
   margin: 0;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; /* Optional: Keep base font */
   /* Remove other potentially conflicting styles previously here */
+}
+
+#root {
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
 }
 
 /* Remove or comment out other rules like :root, a, h1, button styles
