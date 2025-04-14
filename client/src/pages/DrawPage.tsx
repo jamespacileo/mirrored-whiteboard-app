@@ -247,7 +247,7 @@ function DrawPage() {
                 </svg>
 
                 {/* Control Panel - Fixed to the top right corner */}
-                <div className="fixed top-2 left-2 bg-white shadow-lg rounded-lg p-3 z-50">
+                <div className="fixed top-10 left-10 bg-white shadow-lg rounded-lg p-3 z-50">
                     <div className="mb-3">
                         <div className="font-medium text-sm mb-2">Tools</div>
                         <div className="flex items-center space-x-2">
