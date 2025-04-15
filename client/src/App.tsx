@@ -25,12 +25,12 @@ function IndexPage() {
       <img src="/logo.png" alt="Mirrored Whiteboard Logo" className="w-100 h-100" /> 
       <div className="space-y-5 text-center"> {/* Increased spacing */}
         <p>
-          <a href="/draw" className="text-xl text-blue-300 hover:text-blue-100 hover:underline transition duration-150 ease-in-out"> {/* Changed text color/size */}
+          <a href="/draw" target="_blank" rel="noopener noreferrer" className="text-xl text-blue-300 hover:text-blue-100 hover:underline transition duration-150 ease-in-out"> {/* Changed text color/size */}
             Open Drawing Pad
           </a>
         </p>
         <p>
-          <a href="/mirror" className="text-xl text-blue-300 hover:text-blue-100 hover:underline transition duration-150 ease-in-out"> {/* Changed text color/size */}
+          <a href="/mirror" target="_blank" rel="noopener noreferrer" className="text-xl text-blue-300 hover:text-blue-100 hover:underline transition duration-150 ease-in-out"> {/* Changed text color/size */}
             Open Mirror View
           </a>
         </p>

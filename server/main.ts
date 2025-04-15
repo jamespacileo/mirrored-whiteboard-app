@@ -43,7 +43,65 @@ app.use(async (ctx, next) => {
 });
 
 
+// Function to open browser based on OS
+async function openBrowser(url: string) {
+  let command: string;
+  let args: string[] = [url];
+
+  switch (Deno.build.os) {
+    case "darwin": // macOS
+      command = "open";
+      break;
+    case "windows":
+      command = "cmd";
+      // Need to escape special characters like '&' for cmd.exe
+      args = ["/c", "start", url.replace(/&/g, "^&")];
+      break;
+    case "linux":
+      command = "xdg-open";
+      break;
+    default:
+      console.warn(`Unsupported OS: ${Deno.build.os}. Cannot automatically open browser.`);
+      return;
+  }
+
+  try {
+    console.log(`Attempting to open browser: ${command} ${args.join(" ")}`);
+    const openCmd = new Deno.Command(command, {
+      args: args,
+      stdout: "piped",
+      stderr: "piped",
+    });
+    const { code, stderr } = await openCmd.output();
+    if (code !== 0) {
+      console.error(`Failed to open browser (code: ${code}): ${new TextDecoder().decode(stderr)}`);
+    } else {
+      console.log("Browser open command issued.");
+    }
+  } catch (error) {
+    console.error(`Error executing browser open command: ${error}`);
+  }
+}
+
+
 if (import.meta.main) {
-    console.log("Server listening on http://localhost:8090");
-    await app.listen({ port: 8090 });
+    const port = 8090;
+    const url = `http://localhost:${port}`;
+    console.log(`Server listening on ${url}`);
+
+    // Start listening
+    const listenerPromise = app.listen({ port });
+
+    // Attempt to open the browser after the server starts
+    listenerPromise.then(() => {
+        console.log("Server started, attempting to open browser...");
+        // Use a timeout to give the system a moment before trying to open
+        setTimeout(() => openBrowser(url), 500);
+    }).catch(err => {
+        console.error("Failed to start server:", err);
+        Deno.exit(1); // Exit if server fails
+    });
+
+    // Keep the server running
+    await listenerPromise;
 }

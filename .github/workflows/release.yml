@@ -1,0 +1,105 @@
+name: Create Release and Compile Binaries
+
+on:
+  push:
+    tags:
+      - 'v*' # Trigger on tags like v1.0, v2.1.3, etc.
+
+permissions:
+  contents: write # Needed to create releases and upload assets
+
+jobs:
+  release:
+    name: Create Release and Compile
+    runs-on: ubuntu-latest # Use Ubuntu as the main runner for orchestrating
+    strategy:
+      matrix:
+        # Define the targets for cross-compilation
+        # Deno target names: https://docs.deno.com/runtime/manual/tools/compiler#cross-compilation
+        target:
+          - x86_64-unknown-linux-gnu
+          - x86_64-apple-darwin
+          - aarch64-apple-darwin
+          - x86_64-pc-windows-msvc
+        include:
+          # Define output artifact names based on target
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest # Runner OS for this target
+            artifact_name: mirrored-whiteboard-linux-x64
+          - target: x86_64-apple-darwin
+            os: macos-latest # Runner OS for this target
+            artifact_name: mirrored-whiteboard-macos-x64
+          - target: aarch64-apple-darwin
+            os: macos-latest # Runner OS for this target
+            artifact_name: mirrored-whiteboard-macos-arm64
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest # Runner OS for this target
+            artifact_name: mirrored-whiteboard-windows-x64.exe # Add .exe for Windows
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x # Use the latest Deno 1.x
+
+      # Cache dependencies (optional but recommended)
+      - name: Cache Deno dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/deno
+            ./deno.lock # Include lock file if it changes dependencies
+            ./node_modules # Cache node_modules if using --node-modules-dir
+          key: ${{ runner.os }}-deno-${{ hashFiles('**/deno.lock') }}-${{ hashFiles('**/deno.json') }}
+          restore-keys: |
+            ${{ runner.os }}-deno-
+
+      # Build client and compile for the specific target
+      # Note: The 'compile' task in deno.json includes the build step,
+      # but we need to run the steps manually here to override target/output.
+      - name: Compile for ${{ matrix.target }}
+        run: |
+          deno task build # Run the build step first
+          deno compile --no-check --allow-net --allow-read --allow-run --allow-env --include client/dist --target ${{ matrix.target }} -o ${{ matrix.artifact_name }} server/main.ts
+        # The compile task in deno.json needs to be adjusted slightly
+        # OR we override the output here. Let's override here for simplicity.
+        # The deno.json task: "compile": "deno task build && deno compile --no-check --allow-net --allow-read --allow-run --allow-env --include client/dist -o mirrored-whiteboard server/main.ts"
+        # We need to run the build step first, then the compile step with target and output override.
+        shell: bash # Use bash for consistency
+
+      # Upload artifact (temporary storage before release)
+      - name: Upload artifact for release
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }} # Name of the artifact in GitHub Actions UI
+          path: ${{ matrix.artifact_name }} # Path to the compiled file
+
+  create_release:
+    name: Create GitHub Release
+    needs: release # Run after all compile jobs are done
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get tag name
+        id: get_tag
+        run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts # Download all artifacts to this directory
+
+      - name: Create Release and Upload Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          name: Release ${{ env.TAG_NAME }}
+          body: |
+            Release notes for ${{ env.TAG_NAME }}
+
+            **Compiled Binaries:**
+          files: release-artifacts/**/* # Upload all downloaded artifacts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Provided by GitHub Actions

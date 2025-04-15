@@ -3,7 +3,8 @@
     "dev": "deno run -A --node-modules-dir npm:vite",
     "build": "deno run -A --node-modules-dir=auto npm:vite build",
     "server:start": "deno run -A --node-modules-dir --watch ./server/main.ts",
-    "serve": "deno task build && deno task server:start"
+    "serve": "deno task build && deno task server:start",
+    "compile": "deno task build && deno compile --no-check --allow-net --allow-read --allow-run --allow-env --include client/dist -o mirrored-whiteboard server/main.ts"
   },
   "nodeModulesDir": "auto",
   "imports": {
